@@ -21,8 +21,13 @@ class App extends Component {
         // getting data of last 30 days campers
         axios.get(RECENT_URL)
         .then((response) => {
+            let campers = response.data;
+            campers = campers.sort((a,b) => {
+                return a.recent - b.recent;
+            });
+            campers = campers.reverse();
             this.setState({
-                thirtyDays:response.data
+                thirtyDays:campers
             });
         })
         .catch((error) => {
@@ -32,8 +37,13 @@ class App extends Component {
         // getting data of all time top campers
         axios.get(ALL_TIME)
         .then((response) => {
+            let campers = response.data;
+            campers = campers.sort((a,b) => {
+                return a.alltime - b.alltime;
+            });
+            campers = campers.reverse();
             this.setState({
-                allTime:response.data
+                allTime:campers
             });
         })
         .catch((error) => {
@@ -64,7 +74,7 @@ class App extends Component {
             let campers = this.state.thirtyDays;
             return campers.map((camper, index) => {
                 return (
-                    <li key={index}>
+                    <li key={index} className="camper-li-item">
                         <ListItem
                             camper={camper}
                             rank={index+1}
