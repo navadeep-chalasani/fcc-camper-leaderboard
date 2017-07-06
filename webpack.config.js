@@ -2,16 +2,18 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports ={
-    entry: [
-        './src/index.js'
-    ],
+    context: path.resolve(__dirname, './src'),
+    entry: {
+      app: './index.js',
+    },
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: 'bundle.js'
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, './dist/assets'),
+        publicPath: '/assets',
     },
     devServer:{
         historyApiFallback: true,
-        contentBase: './'
+        contentBase: path.resolve(__dirname, './src')
     },
     module:{
         rules:[
@@ -20,7 +22,7 @@ module.exports ={
                 exclude:[/node_modules/],
                 use:[{
                     loader:'babel-loader',
-                    options:{presets: ['es2015']},
+                    options:{presets: ['es2015', 'react', 'stage-2']},
                 }],
             },
             {
